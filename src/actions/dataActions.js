@@ -5,10 +5,10 @@ export function beginDataLoad() {
     return { type: types.DATA_LOAD_START };
 }
 
-export function loadData(left, bottom, right, top) {
+export function loadData(left, bottom, right, top, roadOption) {
     return function (dispatch, getState) {
         dispatch(beginDataLoad());
-        return calculationApi.loadData(left, bottom, right, top)
+        return calculationApi.loadData(left, bottom, right, top, roadOption)
         .then(resp => {
             dispatch({ type: types.DATA_LOAD_FULFILLED, payload: resp.data });
         }).catch(er => {

@@ -6,6 +6,8 @@ import {connect} from 'react-redux';
 import {bindActionCreators} from 'redux';
 import { withStyles } from 'material-ui/styles';
 
+import CalculationOptions from './CalculationOptions';
+
 import { Map, TileLayer, Rectangle } from 'react-leaflet';
 import { MapBounds } from 'react-leaflet-bounds';
 
@@ -19,19 +21,21 @@ class MapContainer extends React.Component {
     super(props, content);
 
     this.state = {
-      bounds: props.bounds
+      bounds: props.bounds,
+      roadOption: "truncate"
 
       // [[-37.8587, 145.1876], [-37.8495, 145.2049]]
     };
 
     this.onViewportChanged = this.onViewportChanged.bind(this);
     this.onClick = this.onClick.bind(this);
+    this.onRoadOptionChanged = this.onRoadOptionChanged.bind(this);
   }
 
   onClick(event) {
     // refresh data here...
     const { left, bottom, right, top } = this.state.bounds;
-    this.props.loadData(left, bottom, right, top);
+    this.props.loadData(left, bottom, right, top, this.state.roadOption);
   }
 
   onViewportChanged(viewport) {
@@ -49,6 +53,10 @@ class MapContainer extends React.Component {
     this.setState(Object.assign({}, this.state, { bounds }));
   }
 
+  onRoadOptionChanged(event) {
+    this.setState(Object.assign({}, this.state, {roadOption: event.target.value}));
+  }
+
 
   render() {
 
@@ -60,6 +68,7 @@ class MapContainer extends React.Component {
       {this.state.bounds && 
       <div>
         <p>Bounds of the map are {JSON.stringify(this.state.bounds)}</p>
+        <CalculationOptions roadOption={this.state.roadOption} onRoadOptionChanged={this.onRoadOptionChanged}/>
         <button onClick={this.onClick}>Load Data</button>
       </div>}
       

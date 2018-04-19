@@ -5,10 +5,16 @@ const typeDefaults = {
     "cycleway": false,
     "footway": false,
     "path": false,
+    "pedestrian" : false,
     "residential": true,
+    "unclassified" : false,
     "service": true,
     "tertiary": true,
     "trunk": true
+};
+
+const roadDefaults = {
+    "unnamed" : false
 };
 
 
@@ -30,7 +36,8 @@ export default function resultReducer(state=intialState.config, action) {
         const roads = Array.from(new Set(payload.roads.map((val, idx) => val.name)));
         return {
             roads: roads.reduce((m, val) => {
-                m[val] = true;
+                const def = roadDefaults[val];
+                m[val] = def !== undefined ? def : true;
                 return m;
             }, {}),
             types: payload.types.reduce((m, val) => {

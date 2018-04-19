@@ -18,8 +18,8 @@ function getResultText(roads, config) {
             unit = road.unit;
         }
     }
-
-    return `${total} ${unit}`;
+    let totalStr = (Math.round(total * 100 ) / 100).toFixed(2);
+    return `${totalStr} ${unit}`;
 }
 
 // calculate results
@@ -39,7 +39,7 @@ const Results = ({roads, config, error, retry}) => {
   return (
     <div style={{ textAlign: "center" }}>
       <Typography variant="subheading" align="center" gutterBottom>
-        Road surface is estimated at:
+        Road surface is estimated at (m<sup>2</sup>):
         </Typography>
       <Typography variant="headline" align="center" gutterBottom>
         {getResultText(roads, config)}
