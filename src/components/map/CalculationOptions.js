@@ -37,7 +37,7 @@ const CalculationOptions = ({classes, roadOption, onRoadOptionChanged}) => {
           >
             <MenuItem value={"include"}>Include the whole road </MenuItem>
             <MenuItem value={"truncate"}>Truncate the road at the border</MenuItem>
-            <MenuItem value={"exclude"}>Exclude any road that falls outside</MenuItem>
+            <MenuItem value={"intersection"}>Exclude the road from the nearest intersection</MenuItem>
           </Select>
         </FormControl>
         </div>

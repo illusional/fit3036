@@ -10,7 +10,13 @@ export function loadData(left, bottom, right, top, roadOption) {
         dispatch(beginDataLoad());
         return calculationApi.loadData(left, bottom, right, top, roadOption)
         .then(resp => {
-            dispatch({ type: types.DATA_LOAD_FULFILLED, payload: resp.data });
+            if (resp && resp.data.success) {
+                dispatch({ type: types.DATA_LOAD_FULFILLED, payload: resp.data });
+            } else {
+                const message = resp && resp.message || "An error occurred while calculating road surface area";
+                dispatch({ type: types.DATA_LOAD_REJECTED, payload: message });
+
+            }
         }).catch(er => {
             dispatch({ type: types.DATA_LOAD_REJECTED, payload: er.message });
         });

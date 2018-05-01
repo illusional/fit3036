@@ -2,6 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import Configure from './Configure';
 import { Typography } from 'material-ui/styles';
+import { Paper } from 'material-ui';
 
 const Configuration = ({ types, roads, updateType, updateRoad }) => {
 
@@ -14,11 +15,11 @@ const Configuration = ({ types, roads, updateType, updateRoad }) => {
     };
 
     return (
-        <div>
+        <Paper style={{padding: "20px", margin: "5px" }}>
             {types && <Configure title="Types" elements={types} onChange={onTypeChange} />}
             <br />
             {roads && <Configure title="Roads" elements={roads} onChange={onRoadChange}/>}
-        </div>
+        </Paper>
     );
 };
 

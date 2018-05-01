@@ -32,7 +32,7 @@ app.post("/api/calculate", function(req, res) {
 
   calculate(left, top, right, bottom, roadOption)
     .then(result => {
-      res.send(result);
+      res.send(Object.assign({success: true}, result ));
     }).catch(er => {
       console.log(er);
       res.send({success: false, message: er.message });

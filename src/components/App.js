@@ -46,7 +46,7 @@ class App extends React.Component {
         <div>
           <Header />
           <div style={{display:"flex", flexDirection:"row", padding: "10px"}}>
-            <div style={{width:"48%"}}>
+            <div style={{width: "300px", padding: "10px"}}>
               <Results 
                 roads={this.props.roads} 
                 config={this.props.config}
@@ -60,7 +60,7 @@ class App extends React.Component {
                 updateRoad={this.props.actions.updateRoad}
               />                
             </div>
-            <div style={{width:"48%"}}>
+            <div style={{width:"auto"}}>
               <MapContainer />
             </div>
           </div>

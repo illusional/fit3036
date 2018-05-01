@@ -1,8 +1,11 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import Typography from 'material-ui/Typography';
+import NumberFormat from 'react-number-format';
+import { Paper } from 'material-ui';
+import { Button } from 'material-ui';
 
-function getResultText(roads, config) {
+function getResult(roads, config) {
     if (!roads || roads.length === 0) { return "loading ..."; }
 
     let total = 0.0;
@@ -18,9 +21,14 @@ function getResultText(roads, config) {
             unit = road.unit;
         }
     }
-    let totalStr = (Math.round(total * 100 ) / 100).toFixed(2);
-    return `${totalStr} ${unit}`;
+    return total;
 }
+
+const renderText = (n) => (
+  <Typography variant="headline" align="center" gutterBottom>
+    {n + "m"}<sup>2</sup>
+  </Typography>
+);
 
 // calculate results
 
@@ -31,20 +39,25 @@ const Results = ({roads, config, error, retry}) => {
       <div>
         <Typography>An error occurred:</Typography>
         <Typography>{error}</Typography>
-        <button onClick={retry}>Retry</button>
+        <Button color="primary" variant="raised" onClick={retry} styles={{display: "flex",
+        margin: "15px auto 0 auto"}}>Retry</Button>
       </div>
     );
   }
 
+  let bodytext = (!roads || roads.length === 0) 
+    ? <Typography variant="headline" align="center" gutterBottom>Loading...</Typography>
+    : <NumberFormat value={getResult(roads, config)} displayType={'text'} 
+      thousandSeparator decimalScale={1} renderText={renderText}/>;
+
+
   return (
-    <div style={{ textAlign: "center" }}>
+    <Paper style={{ textAlign: "center", padding: "10px", margin: "5px" }}>
       <Typography variant="subheading" align="center" gutterBottom>
         Road surface is estimated at (m<sup>2</sup>):
-        </Typography>
-      <Typography variant="headline" align="center" gutterBottom>
-        {getResultText(roads, config)}
       </Typography>
-    </div>
+      {bodytext}
+    </Paper>
   );
 };
 
