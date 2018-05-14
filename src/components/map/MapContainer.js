@@ -94,8 +94,8 @@ class MapContainer extends React.Component {
     const dw = dwt > 0 ? Math.min(dwt, maxRange) : Math.max(dwt, -maxRange);
     const dh = dht > 0 ? Math.min(dht, maxRange) : Math.max(dht, -maxRange);
     const bounds = {
-      top: coordinate.lat - dw,
-      bottom: coordinate.lat + dw,
+      top: coordinate.lat + dw,
+      bottom: coordinate.lat - dw,
       left: coordinate.lng - dh,
       right: coordinate.lng + dh
     };
