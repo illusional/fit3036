@@ -1,6 +1,5 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import Header from '../components/common/Header';
 import {connect} from 'react-redux';
 import {bindActionCreators} from 'redux';
 
@@ -8,6 +7,9 @@ import { MuiThemeProvider, createMuiTheme } from 'material-ui/styles';
 import Results from './Results/Results';
 import Configuration from './Results/Configuration';
 import * as configActions from '../actions/configActions';
+
+import Header from '../components/common/Header';
+
 import { loadData } from '../actions/dataActions';
 import MapContainer from './map/MapContainer';
 
@@ -28,46 +30,38 @@ const theme = createMuiTheme({
   }
 });
 
-class App extends React.Component {
+const App = ({ actions, bounds, types, roads, config, dataError }) => {
 
-  constructor(props, context) {
-    super(props, context);
-    this.retryLoad = this.retryLoad.bind(this);
-  }
-
-
-  retryLoad() {
+  const retryLoad = () => {
     const { left, bottom, right, top } = this.props.bounds;
-    this.props.actions.loadData(left, bottom, right, top);
-  }
+    actions.loadData(left, bottom, right, top);
+  };
 
-  render() {
-    return (
-        <div>
-          <Header />
-          <div style={{display:"flex", flexDirection:"row", padding: "10px"}}>
-            <div style={{width: "300px", padding: "10px"}}>
-              <Results 
-                roads={this.props.roads} 
-                config={this.props.config}
-                error={this.props.dataError}
-                retry={this.retryLoad}
-              />
-              <Configuration 
-                types={this.props.config.types} 
-                roads={this.props.config.roads}
-                updateType={this.props.actions.updateType}
-                updateRoad={this.props.actions.updateRoad}
-              />                
-            </div>
-            <div style={{width:"auto"}}>
-              <MapContainer />
-            </div>
-          </div>
+  return (
+    <div>
+      <Header />
+      <div style={{display:"flex", flexDirection:"row", padding: "10px"}}>
+        <div style={{width: "300px", padding: "10px"}}>
+          <Results 
+            roads={roads} 
+            config={config}
+            error={dataError}
+            retry={retryLoad}
+          />
+          <Configuration 
+            types={config.types} 
+            roads={config.roads}
+            updateType={actions.updateType}
+            updateRoad={actions.updateRoad}
+          />                
         </div>
-    );
-  }
-}
+        <div style={{width:"auto"}}>
+          <MapContainer />
+        </div>
+      </div>
+    </div>
+  );
+};
 
 App.propTypes = {
   roads: PropTypes.array,
@@ -87,7 +81,7 @@ function mapStateToProps(state) {
 }
 
 function mapDispatchToProps(dispatch) {
-  const actions = Object.assign({}, configActions, { loadData });
+  const actions = { ...configActions, loadData };
   return {
     actions: bindActionCreators(actions, dispatch)
   };
