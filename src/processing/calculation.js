@@ -109,12 +109,6 @@ function calculateRoadArea(nodes, road) {
     return {
         area, unit: "m^2"
     };
-
-
-    // return {
-    //     area: road.nds.length,
-    //     unit: "nodes"
-    // };
 }
 
 export default function (left, top, right, bottom, roadOption) {
