@@ -1,7 +1,7 @@
 {
-  "name": "pluralsight-redux-starter",
+  "name": "fit3036-road-surface-estimation",
   "version": "1.0.0",
-  "description": "Starter kit for React and Redux Pluralsight course by Cory House",
+  "description": "FIT3036 Computer Science Project for estimating road surface area",
   "scripts": {
     "start": "cross-env npm-run-all --parallel test:watch open:src lint:watch",
     "open:src": "babel-node tools/srcServer.js",
@@ -10,7 +10,7 @@
     "test": "mocha --reporter progress tools/testSetup.js \"src/**/*.test.js\"",
     "test:watch": "npm run test -- --watch"
   },
-  "author": "Cory House",
+  "author": "Michael Franklin",
   "license": "MIT",
   "dependencies": {
     "axios": "^0.18.0",
@@ -33,7 +33,6 @@
     "react-router-redux": "4.0.8",
     "redux": "3.7.2",
     "redux-thunk": "2.2.0",
-    "toastr": "2.1.4",
     "typeface-roboto": "0.0.54",
     "xml2js": "^0.4.19"
   },
@@ -50,7 +49,6 @@
     "babel-preset-stage-3": "^6.24.1",
     "babel-register": "6.8.0",
     "cheerio": "0.22.0",
-    "colors": "1.1.2",
     "compression": "1.6.1",
     "cross-env": "^1.0.7",
     "css-loader": "0.23.1",
@@ -83,6 +81,6 @@
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/coryhouse/pluralsight-redux-starter"
+    "url": "https://github.com/illusional/fit3036"
   }
 }

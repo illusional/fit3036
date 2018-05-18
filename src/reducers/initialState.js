@@ -1,17 +1,11 @@
 export default {
     data: {
         // Vermont South
-        // bounds: {
-        //     left: 145.1876,
-        //     bottom: -37.8587,
-        //     right: 145.2049,
-        //     top: -37.8495
-        // },
         bounds: {
-            left: 145.29425, 
-            bottom: -37.86181,
-            right: 145.30014,
-            top: -37.85682
+            left: 145.12796,
+            right: 145.14255,
+            bottom: -37.91394,
+            top: -37.90716
         },
         roads: undefined,
         error: undefined

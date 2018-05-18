@@ -1,23 +1,24 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { loadData } from '../../actions/dataActions';
 
 import {connect} from 'react-redux';
 import {bindActionCreators} from 'redux';
 import { withStyles } from 'material-ui/styles';
+import { loadData, updateBounds } from '../../actions/dataActions';
+
+import BoundsForm from './BoundsForm';
+
 import Typography from 'material-ui/Typography';
+import { Paper } from 'material-ui';
+import TextField from 'material-ui/TextField';
 
-import CalculationOptions from './CalculationOptions';
-
+import { LatLng, LatLngBounds } from "leaflet";
 import { Map, TileLayer, Rectangle } from 'react-leaflet';
 import { MapBounds } from 'react-leaflet-bounds';
 import NumberFormat from 'react-number-format';
-import TextField from 'material-ui/TextField';
 import Button from 'material-ui/Button';
 import PlacesAutocomplete, { geocodeByAddress, getLatLng } from 'react-places-autocomplete';
 import AddressLookup from './AddressLookup';
-import { Paper } from 'material-ui';
-import BoundsForm from './BoundsForm';
 
 const styles = {
   paper: {
@@ -30,63 +31,21 @@ class MapContainer extends React.Component {
   constructor(props, content) {
     super(props, content);
 
-    this.state = {
-      bounds: props.bounds,
-      textBounds: props.bounds,
-      roadOption: "truncate"
-
-      // [[-37.8587, 145.1876], [-37.8495, 145.2049]]
-    };
-
     this.onViewportChanged = this.onViewportChanged.bind(this);
-    this.onClick = this.onClick.bind(this);
-    this.onRoadOptionChanged = this.onRoadOptionChanged.bind(this);
-    this.tfBoundsChanged = this.tfBoundsChanged.bind(this);
-    this.onFormSubmit = this.onFormSubmit.bind(this);
-    this.onCoordinateChange = this.onCoordinateChange.bind(this);
-  }
-
-  onClick(event) {
-    // refresh data here...
-    const { left, bottom, right, top } = this.state.bounds;
-    this.props.loadData(left, bottom, right, top, this.state.roadOption);
+    this.onAddressLookup = this.onAddressLookup.bind(this);
   }
 
   onViewportChanged(viewport) {
     if (!this.map) { return; }
     const mapBounds = this.map.leafletElement.getBounds();
-
-    // {"_southWest":{"lat":85.05059422848228,"lng":-37.857097106461886},"_northEast":{"lat":85.05133468635948,"lng":-37.8476986460737}}"
-    // I think they're mapped incorrectly in the module...
-    const bounds = { 
-      left: mapBounds._southWest.lng,
-      bottom: mapBounds._southWest.lat,
-      right: mapBounds._northEast.lng,
-      top: mapBounds._northEast.lat
-    };
-    this.setState(Object.assign({}, this.state, { bounds, textBounds: bounds }));
+    const left = mapBounds.getWest();
+    const right = mapBounds.getEast();
+    const bottom = mapBounds.getSouth();
+    const top = mapBounds.getNorth();
+    this.props.actions.updateBounds(left, bottom, right, top);
   }
 
-  onRoadOptionChanged(event) {
-    this.setState(Object.assign({}, this.state, {roadOption: event.target.value}));
-  }
-
-  tfBoundsChanged(e) {
-    const value = Number(e.target.value) || this.state.bounds[e.target.id];
-    let bounds = Object.assign({}, this.state.bounds, {[e.target.id] : e.target.value});
-    this.setState(Object.assign({}, this.state, { textBounds: bounds }));
-  }
-
-  onFormSubmit(f) {
-    f.preventDefault();
-    this.setState(Object.assign({}, this.state, {bounds: this.state.textBounds}));
-
-    const { left, bottom, right, top } = this.state.textBounds;
-    this.props.loadData(left, bottom, right, top, this.state.roadOption);
-
-  }
-
-  onCoordinateChange(coordinate) {
+  onAddressLookup(coordinate) {
     const { left, right, top, bottom } = this.state.bounds;
     const maxRange = 0.005; // 1km by 1km
     const dwt = right - left;
@@ -99,26 +58,20 @@ class MapContainer extends React.Component {
       left: coordinate.lng - dh,
       right: coordinate.lng + dh
     };
-    this.setState(Object.assign({}, this.state, { bounds, textBounds: bounds}));
-    this.props.loadData(bounds.left, bounds.bottom, bounds.right, bounds.top, this.state.roadOption);
+    this.props.actions.loadData(bounds.left, bounds.bottom, bounds.right, bounds.top, this.state.roadOption);
   }
 
-  
-
   render() {
-    const { left, bottom, right, top } = this.state.bounds;
+    const { left, bottom, right, top } = this.props.bounds;
     const boundArray = [[bottom, left], [top, right]];
-    
+    const bounds = new LatLngBounds(new LatLng(bottom, left), new LatLng(top, right));
+// LatLngBounds: constructor(southWest: LatLngExpression, northEast: LatLngExpression);
+// LatLng: constructor(latitude: number, longitude: number, altitude?: number);
     return (
       <div>      
-        <CalculationOptions roadOption={this.state.roadOption} onRoadOptionChanged={this.onRoadOptionChanged}/>
-        <Button onClick={this.onClick}variant="raised" size="medium" color="primary">
-          Reload Data
-        </Button>
-        <br />
         <div className="leaflet-container">
           <Map 
-            bounds={boundArray} 
+            bounds={bounds} 
             onViewportChanged={this.onViewportChanged} 
             ref={(map) => { this.map = map; }} 
           >
@@ -129,12 +82,8 @@ class MapContainer extends React.Component {
         </div>
         <Paper className={this.props.classes.paper}>
           <Typography variant="subheading" align="center" gutterBottom>Bounds Settings</Typography>
-          <AddressLookup onCoordinateChange={this.onCoordinateChange}/>
-          {this.state.bounds && <BoundsForm 
-            bounds={this.state.bounds}
-            onFormSubmit={this.onFormSubmit}
-            tfBoundsChanged={this.tfBoundsChanged}
-          />}
+          <AddressLookup onCoordinateChange={this.onAddressLookup}/>
+          <BoundsForm />
         </Paper>
       </div>
     );
@@ -142,9 +91,9 @@ class MapContainer extends React.Component {
 }
 
 MapContainer.propTypes = {
-  bounds: PropTypes.object,
-  loadData: PropTypes.func,
-  classes: PropTypes.object
+  classes: PropTypes.object,
+  actions: PropTypes.object,
+  bounds: PropTypes.object
 };
 
 function mapStateToProps(state, ownProps) {
@@ -155,8 +104,9 @@ function mapStateToProps(state, ownProps) {
 
 function mapDispatchToProps(dispatch){
   return {
-    loadData: bindActionCreators({ loadData }, dispatch).loadData
+    actions: bindActionCreators({ loadData, updateBounds }, dispatch)
   };
 }
+
 
 export default withStyles(styles)(connect(mapStateToProps, mapDispatchToProps)(MapContainer));

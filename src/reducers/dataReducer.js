@@ -16,6 +16,10 @@ import intialState from './initialState';
 
 export default function dataReducer(state=intialState.data, action) {
 
+    if (action.type == types.DATA_BOUNDS_CHANGED) {
+        return Object.assign({}, state, { bounds: action.payload });
+    }
+
     if (action.type === types.DATA_LOAD_START) {
         return Object.assign({}, state, { roads: undefined, error: undefined });
     }
