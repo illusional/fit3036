@@ -4,8 +4,7 @@ export default class CalculationApi {
 
     static loadData(left, bottom, right, top, roadOption) {
         const url = `/api/calculate?bbox=${left},${bottom},${right},${top}&roadOption=${roadOption || "truncate"}`;
-        const properties = { roadOption };
-        return axios.post(url, properties, res => {
+        return axios.post(url, res => {
             const { data } = res;
             if (data.success) {
                 return data;
@@ -13,7 +12,5 @@ export default class CalculationApi {
                 throw new Error(data ? data.message : res.message);
             }
         });
-
     }
-
 }

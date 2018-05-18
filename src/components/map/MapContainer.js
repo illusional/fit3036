@@ -6,7 +6,10 @@ import {bindActionCreators} from 'redux';
 import { withStyles } from 'material-ui/styles';
 import { loadData, updateBounds } from '../../actions/dataActions';
 
+import NumberFormat from 'react-number-format';
+
 import BoundsForm from './BoundsForm';
+import AddressLookup from './AddressLookup';
 
 import Typography from 'material-ui/Typography';
 import { Paper } from 'material-ui';
@@ -14,11 +17,9 @@ import TextField from 'material-ui/TextField';
 
 import { LatLng, LatLngBounds } from "leaflet";
 import { Map, TileLayer, Rectangle } from 'react-leaflet';
-import { MapBounds } from 'react-leaflet-bounds';
-import NumberFormat from 'react-number-format';
+
 import Button from 'material-ui/Button';
-import PlacesAutocomplete, { geocodeByAddress, getLatLng } from 'react-places-autocomplete';
-import AddressLookup from './AddressLookup';
+import PlacesAutocomplete, { geocodeByAddress } from 'react-places-autocomplete';
 
 const styles = {
   paper: {
@@ -65,8 +66,7 @@ class MapContainer extends React.Component {
     const { left, bottom, right, top } = this.props.bounds;
     const boundArray = [[bottom, left], [top, right]];
     const bounds = new LatLngBounds(new LatLng(bottom, left), new LatLng(top, right));
-// LatLngBounds: constructor(southWest: LatLngExpression, northEast: LatLngExpression);
-// LatLng: constructor(latitude: number, longitude: number, altitude?: number);
+
     return (
       <div>      
         <div className="leaflet-container">

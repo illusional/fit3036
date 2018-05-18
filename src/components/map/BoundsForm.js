@@ -4,11 +4,12 @@ import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import { loadData, updateBounds } from '../../actions/dataActions';
 
+import CalculationOptions from './CalculationOptions';
+
 import { withStyles } from 'material-ui/styles';
 import NumberFormat from 'react-number-format';
 import TextField from 'material-ui/TextField';
 import Button from 'material-ui/Button';
-import CalculationOptions from './CalculationOptions';
 
 const styles = {
   button: {

@@ -4,17 +4,12 @@ import path from 'path';
 import config from '../webpack.config.dev';
 import open from 'open';
 import calculate from '../src/processing/calculation';
-import bodyParser from "body-parser";
-
 
 /* eslint-disable no-console */
 
 const port = 3000;
 const app = express();
 const compiler = webpack(config);
-
-app.use(bodyParser.urlencoded({extended: true}));
-app.use(bodyParser.json());
 
 app.use(require('webpack-dev-middleware')(compiler, {
   noInfo: true,
@@ -28,7 +23,7 @@ app.post("/api/calculate", function(req, res) {
   // const { left, top, right, bottom } = req.params;
   const bbox = req.query.bbox.split(",");
   const [left, bottom, right, top] = bbox;
-  const roadOption = req.body.roadOption;
+  const roadOption = req.query.roadOption;
 
   calculate(left, top, right, bottom, roadOption)
     .then(result => {
