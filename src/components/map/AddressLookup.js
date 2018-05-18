@@ -2,11 +2,9 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { withStyles } from 'material-ui/styles';
 
-const styles = {
+const styles = {};
 
-}
-
-import PlacesAutocomplete, { geocodeByAddress, getLatLng } from 'react-places-autocomplete'
+import PlacesAutocomplete, { geocodeByAddress, getLatLng } from 'react-places-autocomplete';
 import { Input, Paper, MenuItem } from 'material-ui';
 
 class AddressLookup extends React.Component {
@@ -25,7 +23,6 @@ class AddressLookup extends React.Component {
     geocodeByAddress(address)
       .then(results => getLatLng(results[0]))
       .then(latLng => { this.props.onCoordinateChange(latLng); });
-      // .catch(error => throw(error) );
   }
 
   render() {
@@ -40,7 +37,7 @@ class AddressLookup extends React.Component {
             <Input
               fullWidth
               {...getInputProps({
-                placeholder: 'Search Places ...',
+                placeholder: 'Search for a places ...',
                 className: 'location-search-input'
               })}
             />
@@ -56,7 +53,7 @@ class AddressLookup extends React.Component {
                     <MenuItem {...getSuggestionItemProps(suggestion, { className, style })} key={idx}>
                         <span>{suggestion.description}</span>
                     </MenuItem>
-                    )
+                    );
                 })}
             </Paper>}
           </div>

@@ -30,7 +30,7 @@ const theme = createMuiTheme({
   }
 });
 
-const App = ({ actions, bounds, types, roads, config, dataError }) => {
+const App = ({ actions, bounds, roads, config, dataError }) => {
 
   const retryLoad = () => {
     const { left, bottom, right, top } = this.props.bounds;
@@ -81,7 +81,7 @@ function mapStateToProps(state) {
 }
 
 function mapDispatchToProps(dispatch) {
-  const actions = { ...configActions, loadData };
+  const actions = Object.assign({}, configActions, { loadData });
   return {
     actions: bindActionCreators(actions, dispatch)
   };

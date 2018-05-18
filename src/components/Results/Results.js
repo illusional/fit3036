@@ -1,11 +1,11 @@
+/* eslint  react/no-multi-comp: 0*/
 import React from 'react';
 import PropTypes from 'prop-types';
 import Typography from 'material-ui/Typography';
 import NumberFormat from 'react-number-format';
-import { Paper } from 'material-ui';
-import { Button } from 'material-ui';
+import { Paper, Button } from 'material-ui';
 
-function getResult(roads, config) {
+const getResult = (roads, config) => {
     if (!roads || roads.length === 0) { return "loading ..."; }
 
     let total = 0.0;
@@ -22,7 +22,7 @@ function getResult(roads, config) {
         }
     }
     return total;
-}
+};
 
 const renderText = (n) => (
   <Typography variant="headline" align="center" gutterBottom>

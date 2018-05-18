@@ -15,8 +15,8 @@ const styles = (theme) => ({
     marginRight: 20
   },
   popover: {
-    margin: theme.spacing.unit * 2,
-  },
+    margin: theme.spacing.unit * 2
+  }
 });
 
 class Header extends React.Component {
@@ -31,11 +31,11 @@ class Header extends React.Component {
   }
 
   clickHelp(e) {
-    this.setState({...this.state, helpAnchor: e.target});
+    this.setState(Object.assign({}, this.state, { helpAnchor: e.target }));
   }
 
   closeHelp() {
-    this.setState({...this.state, helpAnchor: null});
+    this.setState(Object.assign({}, this.state, { helpAnchor: null }));
   }
   
   render() {
@@ -53,11 +53,11 @@ class Header extends React.Component {
           onClose={this.closeHelp}
           anchorOrigin={{
             vertical: 'bottom',
-            horizontal: 'left',
+            horizontal: 'left'
           }}
           transformOrigin={{
             vertical: 'bottom',
-            horizontal: 'left',
+            horizontal: 'left'
           }}
         >
         <AboutPage className={classes.popover} />

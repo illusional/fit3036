@@ -122,7 +122,6 @@ export default function (left, top, right, bottom, roadOption) {
   // GET /api/0.6/map?bbox=left,bottom,right,top
   // const xmlContents = fs.readFileSync(__dirname + "/monash-uni-osm.xml");
   const url = `https://overpass-api.de/api/map?bbox=${left},${bottom},${right},${top}`;
-  console.log("Road Option", roadOption);
 
   return axios.get(url).then(axRes => {
     return parseOsmXml(axRes.data);

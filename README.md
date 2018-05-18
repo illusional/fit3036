@@ -18,6 +18,8 @@ Ensure you have installed all NPM packages (by `npm install`)
 ## Notes:
 This project used [Cory House](https://www.pluralsight.com/authors/cory-house)'s [React template](https://github.com/coryhouse/pluralsight-redux-starter), offered by [PluralSight](https://www.pluralsight.com/courses/react-redux-react-router-es6) as as a base patterning for a React application. This template assists in the support for babel and babel-polyfill for writing ES5 / ES6 that is compiled into a single page application. 
 
+Some of the dependencies are derived from the base template, and other (such as react-router-redux) have been ommitted from the list has they're dependencies of React.
+
 ### Dependencies
 | **Dependency** | **Use** |
 |----------|-------|

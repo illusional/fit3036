@@ -41,7 +41,7 @@ class BoundsForm extends React.Component {
     e.preventDefault();
     const { left, right, top, bottom } = this.state.textBounds;
     const option = this.state.roadOption;
-    this.props.actions.loadData(left, bottom, right, top, option)
+    this.props.actions.loadData(left, bottom, right, top, option);
   }
 
   onRoadOptionChanged(e) {

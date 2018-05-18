@@ -34,6 +34,7 @@ class MapContainer extends React.Component {
 
     this.onViewportChanged = this.onViewportChanged.bind(this);
     this.onAddressLookup = this.onAddressLookup.bind(this);
+    this.bindMapReference = this.bindMapReference.bind(this);
   }
 
   onViewportChanged(viewport) {
@@ -62,6 +63,10 @@ class MapContainer extends React.Component {
     this.props.actions.loadData(bounds.left, bounds.bottom, bounds.right, bounds.top, this.state.roadOption);
   }
 
+  bindMapReference(map) {
+    this.map = map; 
+  }
+
   render() {
     const { left, bottom, right, top } = this.props.bounds;
     const boundArray = [[bottom, left], [top, right]];
@@ -73,7 +78,7 @@ class MapContainer extends React.Component {
           <Map 
             bounds={bounds} 
             onViewportChanged={this.onViewportChanged} 
-            ref={(map) => { this.map = map; }} 
+            ref={this.bindMapReference} 
           >
             <TileLayer
               attribution="&amp;copy <a href=&quot;http://osm.org/copyright&quot;>OpenStreetMap</a> contributors"
