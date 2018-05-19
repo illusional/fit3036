@@ -3,7 +3,8 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import Typography from 'material-ui/Typography';
 import NumberFormat from 'react-number-format';
-import { Paper, Button } from 'material-ui';
+import Paper from 'material-ui/Paper';
+import Button from 'material-ui/Button';
 
 const getResult = (roads, config) => {
     if (!roads || roads.length === 0) { return "loading ..."; }
@@ -13,8 +14,9 @@ const getResult = (roads, config) => {
 
     for (let i=0; i < roads.length; i++) {
         let road = roads[i];
-        if (config.types[road.type] && config.roads[road.name]) {
-            total += road.area;
+        if ((road.t in config.types && config.types[road.t].on) 
+              && (road.n in config.roads && config.roads[road.n].on)) {
+            total += road.a;
         }
 
         if (!unit) {

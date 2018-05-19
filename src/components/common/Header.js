@@ -52,8 +52,8 @@ class Header extends React.Component {
           anchorEl={this.state.helpAnchor}
           onClose={this.closeHelp}
           anchorOrigin={{
-            vertical: 'bottom',
-            horizontal: 'left'
+            vertical: 'top',
+            horizontal: 'right'
           }}
           transformOrigin={{
             vertical: 'bottom',

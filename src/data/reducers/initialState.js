@@ -12,6 +12,7 @@ export default {
     },
     config: {
         roads: undefined,
-        types: undefined
+        types: undefined,
+        mode: "truncate"
     }
 };

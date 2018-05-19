@@ -4,22 +4,20 @@ import PropTypes from 'prop-types';
 import {connect} from 'react-redux';
 import {bindActionCreators} from 'redux';
 import { withStyles } from 'material-ui/styles';
-import { loadData, updateBounds } from '../../actions/dataActions';
-
-import NumberFormat from 'react-number-format';
+import { loadData, updateBounds } from '../../data/actions/dataActions';
 
 import BoundsForm from './BoundsForm';
 import AddressLookup from './AddressLookup';
 
+import NumberFormat from 'react-number-format';
 import Typography from 'material-ui/Typography';
-import { Paper } from 'material-ui';
+import Paper from 'material-ui/Paper';
 import TextField from 'material-ui/TextField';
+import Button from 'material-ui/Button';
 
 import { LatLng, LatLngBounds } from "leaflet";
 import { Map, TileLayer, Rectangle } from 'react-leaflet';
 
-import Button from 'material-ui/Button';
-import PlacesAutocomplete, { geocodeByAddress } from 'react-places-autocomplete';
 
 const styles = {
   paper: {
@@ -33,7 +31,6 @@ class MapContainer extends React.Component {
     super(props, content);
 
     this.onViewportChanged = this.onViewportChanged.bind(this);
-    this.onAddressLookup = this.onAddressLookup.bind(this);
     this.bindMapReference = this.bindMapReference.bind(this);
   }
 
@@ -47,29 +44,12 @@ class MapContainer extends React.Component {
     this.props.actions.updateBounds(left, bottom, right, top);
   }
 
-  onAddressLookup(coordinate) {
-    const { left, right, top, bottom } = this.state.bounds;
-    const maxRange = 0.005; // 1km by 1km
-    const dwt = right - left;
-    const dht = bottom - top;
-    const dw = dwt > 0 ? Math.min(dwt, maxRange) : Math.max(dwt, -maxRange);
-    const dh = dht > 0 ? Math.min(dht, maxRange) : Math.max(dht, -maxRange);
-    const bounds = {
-      top: coordinate.lat + dw,
-      bottom: coordinate.lat - dw,
-      left: coordinate.lng - dh,
-      right: coordinate.lng + dh
-    };
-    this.props.actions.loadData(bounds.left, bounds.bottom, bounds.right, bounds.top, this.state.roadOption);
-  }
-
   bindMapReference(map) {
     this.map = map; 
   }
 
   render() {
     const { left, bottom, right, top } = this.props.bounds;
-    const boundArray = [[bottom, left], [top, right]];
     const bounds = new LatLngBounds(new LatLng(bottom, left), new LatLng(top, right));
 
     return (
@@ -87,7 +67,6 @@ class MapContainer extends React.Component {
         </div>
         <Paper className={this.props.classes.paper}>
           <Typography variant="subheading" align="center" gutterBottom>Bounds Settings</Typography>
-          <AddressLookup onCoordinateChange={this.onAddressLookup}/>
           <BoundsForm />
         </Paper>
       </div>

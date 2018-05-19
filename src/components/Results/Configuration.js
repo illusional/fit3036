@@ -1,8 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import Configure from './Configure';
-import { Typography } from 'material-ui/styles';
-import { Paper } from 'material-ui';
+import Paper from 'material-ui/Paper';
 
 const Configuration = ({ types, roads, updateType, updateRoad }) => {
 

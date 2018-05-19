@@ -1,11 +1,11 @@
+/* eslint-disable no-console */
+
 import express from 'express';
 import webpack from 'webpack';
 import path from 'path';
 import config from '../webpack.config.dev';
 import open from 'open';
-import calculate from '../src/processing/calculation';
-
-/* eslint-disable no-console */
+import calculate from '../src/processing/processing';
 
 const port = 3000;
 const app = express();
@@ -42,7 +42,6 @@ app.listen(port, function(err) {
   if (err) {
     console.log(err);
   } else {
-    console.log(`Started on port:${port}`);
-    // open(`http://localhost:${port}`);
+    console.log(`Started on port: ${port}`);
   }
 });

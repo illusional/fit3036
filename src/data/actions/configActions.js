@@ -7,3 +7,7 @@ export function updateRoad(road, value) {
 export function updateType(type, value) {
     return { type: types.CONFIG_UPDATE_TYPE, payload: {[type]: value} };
 }
+
+export function updateMode(mode) {
+    return { type: types.CONFIG_UPDATE_MODE, payload: mode };
+}

@@ -2,14 +2,17 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
-import { loadData, updateBounds } from '../../actions/dataActions';
+import { loadData, updateBounds } from '../../data/actions/dataActions';
+import { updateMode } from '../../data/actions/configActions';
 
 import CalculationOptions from './CalculationOptions';
+import AddressLookup from './AddressLookup';
 
 import { withStyles } from 'material-ui/styles';
 import NumberFormat from 'react-number-format';
 import TextField from 'material-ui/TextField';
 import Button from 'material-ui/Button';
+import PlacesAutocomplete, { geocodeByAddress } from 'react-places-autocomplete';
 
 const styles = {
   button: {
@@ -23,13 +26,16 @@ class BoundsForm extends React.Component {
   constructor(props, content) {
     super(props, content);
     this.state = {
-      textBounds: props.bounds,
-      roadOption: 'truncate'
+      textBounds: props.bounds
     };
 
     this.onFormSubmit = this.onFormSubmit.bind(this);
     this.tfBoundsChanged = this.tfBoundsChanged.bind(this);
     this.onRoadOptionChanged = this.onRoadOptionChanged.bind(this);
+    this.onAddressLookup = this.onAddressLookup.bind(this);
+
+    const { left, right, top, bottom } = props.bounds;
+    props.actions.loadData(left, bottom, right, top, props.mode);
   }
 
   componentWillReceiveProps(nextProps) {
@@ -45,7 +51,7 @@ class BoundsForm extends React.Component {
   }
 
   onRoadOptionChanged(e) {
-    this.setState(Object.assign({}, this.state, { roadOption: e.target.value }));
+    this.props.actions.updateMode(e.target.value);
   }
 
   tfBoundsChanged(e) {
@@ -53,10 +59,28 @@ class BoundsForm extends React.Component {
     let bounds = Object.assign({}, this.state.textBounds, {[e.target.id] : e.target.value});
     this.setState(Object.assign({}, this.state, { textBounds: bounds }));
   }
+
+  
+  onAddressLookup(coordinate) {
+    const { left, right, top, bottom } = this.props.bounds;
+    const maxRange = 0.005; // 1km by 1km
+    const dwt = Math.abs(right - left);
+    const dht = Math.abs(bottom - top);
+    const dw = Math.min(dwt, maxRange);
+    const dh = Math.min(dht, maxRange);
+    const bounds = {
+      top: coordinate.lat + dw,
+      bottom: coordinate.lat - dw,
+      left: coordinate.lng - dh,
+      right: coordinate.lng + dh
+    };
+    this.props.actions.loadData(bounds.left, bounds.bottom, bounds.right, bounds.top, this.state.roadOption);
+  }
   
   render() {
     return (
       <div>
+        <AddressLookup onCoordinateChange={this.onAddressLookup}/>
         <p>Bounds of the map are:</p>
         <form onSubmit={this.onFormSubmit} noValidate autoComplete="off">
         {["left", "bottom", "right", "top"].map((val, idx) => {
@@ -69,7 +93,7 @@ class BoundsForm extends React.Component {
           />);
         })}
         <br />
-        <CalculationOptions roadOption={this.state.roadOption} onRoadOptionChanged={this.onRoadOptionChanged} />
+        <CalculationOptions roadOption={this.props.mode} onRoadOptionChanged={this.onRoadOptionChanged} />
         <Button type="submit" variant="raised" size="medium" color="secondary" className={this.props.classes.button}>
           Reload Map and Data
         </Button>
@@ -81,20 +105,22 @@ class BoundsForm extends React.Component {
 
 BoundsForm.propTypes = {
   classes: PropTypes.object,
+  actions: PropTypes.object.isRequired,
   bounds: PropTypes.object.isRequired,
-  actions: PropTypes.object.isRequired
+  mode: PropTypes.string.isRequired
 };
 
 
 function mapStateToProps(state, ownProps) {
   return {
-    bounds : state.data.bounds
+    bounds : state.data.bounds,
+    mode: state.config.mode 
   };
 }
 
 function mapDispatchToProps(dispatch){
   return {
-    actions: bindActionCreators({ loadData, updateBounds }, dispatch)
+    actions: bindActionCreators({ loadData, updateBounds, updateMode }, dispatch)
   };
 }
 
