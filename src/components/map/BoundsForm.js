@@ -33,6 +33,7 @@ class BoundsForm extends React.Component {
     this.tfBoundsChanged = this.tfBoundsChanged.bind(this);
     this.onRoadOptionChanged = this.onRoadOptionChanged.bind(this);
     this.onAddressLookup = this.onAddressLookup.bind(this);
+    this.viewInVisualiser = this.viewInVisualiser.bind(this);
 
     const { left, right, top, bottom } = props.bounds;
     props.actions.loadData(left, bottom, right, top, props.mode);
@@ -76,6 +77,11 @@ class BoundsForm extends React.Component {
     };
     this.props.actions.loadData(bounds.left, bounds.bottom, bounds.right, bounds.top, this.state.roadOption);
   }
+  viewInVisualiser() {
+    // http://overpass-turbo.eu/?Q=node(50.746%2C7.154%2C50.748%2C7.157)%3B%0Aout%20body%3B&C=50.74697;7.15548;17&R
+    const { left, right, top, bottom } = this.props.bounds;
+    window.open(`http://overpass-turbo.eu/?Q=way[highway](${bottom},${left},${top},${right});(._;>;);out body;`);
+  }
   
   render() {
     return (
@@ -97,6 +103,7 @@ class BoundsForm extends React.Component {
         <Button type="submit" variant="raised" size="medium" color="secondary" className={this.props.classes.button}>
           Reload Map and Data
         </Button>
+        <Button onClick={this.viewInVisualiser} style={{marginLeft: 'auto', marginRight: 0, display: 'block'}}>View in visualizer</Button>
         </form>
       </div>
     );
