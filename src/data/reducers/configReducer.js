@@ -6,7 +6,8 @@ const typeDefaults = {
     "footway": false,
     "path": false,
     "pedestrian" : false,
-    "unclassified" : false
+    "unclassified" : false,
+    "steps": false
     // "residential": true,
     // "service": true,
     // "tertiary": true,
@@ -48,7 +49,7 @@ export default function resultReducer(state=intialState.config, action) {
         return Object.assign({}, state, { types: undefined, roads: undefined });
     }
     if (action.type === types.DATA_LOAD_FULFILLED) {
-        const rs = payload.roadSummary;
+        const rs = payload.roadNames;
         const tps = payload.types;
         return Object.assign({}, state, {
             roads: Object.keys(rs).reduce((m, val) => {

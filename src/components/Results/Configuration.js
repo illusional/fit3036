@@ -5,7 +5,7 @@ import Paper from 'material-ui/Paper';
 
 const Configuration = ({ types, roads, updateType, updateRoad }) => {
 
-    if (!types && !roads) { return <div></div>; }
+    if (!types && !roads) { return <div />; }
 
     const onTypeChange = (e) => {
         updateType(e.target.value, e.target.checked);

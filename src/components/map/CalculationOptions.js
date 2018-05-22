@@ -2,6 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { withStyles } from 'material-ui/styles';
 import { FormControl, MenuItem, Select, InputLabel } from 'material-ui';
+import Mode from '../../processing/mode';
 
 const styles = theme => ({
   root: {
@@ -35,9 +36,9 @@ const CalculationOptions = ({classes, roadOption, onRoadOptionChanged}) => {
               id: 'road-simple'
             }}
           >
-            <MenuItem value={"include"}>Include the whole road </MenuItem>
-            <MenuItem value={"truncate"}>Truncate the road at the border</MenuItem>
-            <MenuItem value={"intersection"}>Exclude the road from the nearest intersection</MenuItem>
+            <MenuItem value={Mode.include}>Include the whole road </MenuItem>
+            <MenuItem value={Mode.intersection}>Intersect the road at the border</MenuItem>
+            <MenuItem value={Mode.truncate}>Truncate the road to the nearest intersection</MenuItem>
           </Select>
         </FormControl>
         </div>

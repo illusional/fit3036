@@ -1,5 +1,20 @@
+'use strict';
+
+import Mode from './mode';
+import intersectHelper from './helpers/intersectHelper';
+import truncatedHelper from './helpers/truncatedHelper';
 
 
+// AUSTROADS (2016) Guide to Road Design Part 3: Geometric Design (4.2.4 Traffic Lane Widths - p. 44)
+const DEFAULT_LANES = 2;
+const DEFAULT_LANE_WIDTH = 3.5;
+const DEFAULT_ROAD_PADDING = 0.9;
+const DEFAULT_ROAD_WIDTH = DEFAULT_LANES * DEFAULT_LANE_WIDTH + DEFAULT_ROAD_PADDING;
+
+/**
+ * @param {Array} pts - Array of points
+ * @returns {Number} the sum of the distance between successive points
+ */
 
 function distanceBetweenAllPoints(pts) {
     let distance = 0.0;
@@ -9,11 +24,23 @@ function distanceBetweenAllPoints(pts) {
     return distance;
 }
 
+/**
+ * Converts degrees to radians
+ * @param {Number} angle 
+ * @returns {Number} angle in radians
+ */
 function toRadians (angle) {
     return angle * (Math.PI / 180);
 }
 
+/**
+ * Javascript implementation of the Haversine (great circle) distance
+ * @param {Node} p1 - Start point
+ * @param {Node} p2 - Finish Point
+ * @returns {Number} distance in metres
+ */
 function distanceBetweenCoordinates(p1, p2) {
+    // Based on: https://stackoverflow.com/a/27943
     // φ is latitude, λ is longitude, R is earth’s radius (mean radius = 6,371km) 
     // a = sin²(φB - φA/2) + cos φA * cos φB * sin²(λB - λA/2)
     // c = 2 * atan2( √a, √(1−a) )
@@ -39,12 +66,51 @@ function distanceBetweenCoordinates(p1, p2) {
     return meters;
 }
 
+function getWidthFromRoad(road) {
+    if (!road || !road.tags) return DEFAULT_ROAD_WIDTH;
 
-export default function (nodes, road) {
+    if (road.tags.width) return road.tags.width;
 
-    let width = road.tags.width || 8.0;
+    if (road.tags.lanes) return DEFAULT_LANE_WIDTH * road.tags.lanes + DEFAULT_ROAD_PADDING;
+
+    switch (road.highway) {
+        case 'motorway': return DEFAULT_ROAD_WIDTH;
+        case 'trunk': return DEFAULT_ROAD_WIDTH;
+        case 'primary': return DEFAULT_ROAD_WIDTH;
+        case 'secondary': return DEFAULT_ROAD_WIDTH;
+        case 'tertiary': return DEFAULT_ROAD_WIDTH;
+        case 'unclassified': return DEFAULT_ROAD_WIDTH;
+        case 'residential': return DEFAULT_ROAD_WIDTH;
+        case 'service': return DEFAULT_ROAD_WIDTH;
+        case 'road': return DEFAULT_ROAD_WIDTH;
+
+        case 'pedestrian': return DEFAULT_LANE_WIDTH;
+        case 'track': return DEFAULT_LANE_WIDTH;
+        case 'path': return DEFAULT_LANE_WIDTH;
+        case 'cycleway': return DEFAULT_LANE_WIDTH;
+    }
+
+    return DEFAULT_ROAD_WIDTH;
+}
+
+function getReducedOrderedNodeSet(mode, bounds, nodeRoadMap, nodes, road) {
+    const allPairs = road.nds.map((nd, idx) => nodes[nd]);
+    if (mode == Mode.include) return allPairs;
+
+    if (mode == Mode.intersection) {
+        return intersectHelper.getIntersectedPoints(allPairs, bounds);
+    } else if (mode == Mode.truncate) {
+        return truncatedHelper.getTruncated(allPairs, bounds, nodeRoadMap);
+    } else {
+        return allPairs;
+    }
+}
+
+export default function (mode, bounds, nodeRoadMap, nodes, road) {
+
+    let width = getWidthFromRoad(road);
     // calculate total distance between nodes
-    const orderedCoordinatePairs = road.nds.map((nd, idx) => nodes[nd]);
+    const orderedCoordinatePairs = getReducedOrderedNodeSet(mode, bounds, nodeRoadMap, nodes, road);
     let distance = distanceBetweenAllPoints(orderedCoordinatePairs);
 
     const area = width * distance;
