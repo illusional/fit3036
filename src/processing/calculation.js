@@ -94,7 +94,7 @@ function getWidthFromRoad(road) {
     return DEFAULT_ROAD_WIDTH;
 }
 
-function getReducedOrderedNodeSet(mode, bounds, nodeRoadMap, nodes, road) {
+export function getReducedOrderedNodeSet(mode, bounds, nodeRoadMap, nodes, road) {
     let allPairs = road.nds.map((nd, idx) => nodes[nd]);
 
     if (mode == Mode.include) return allPairs;
@@ -108,16 +108,13 @@ function getReducedOrderedNodeSet(mode, bounds, nodeRoadMap, nodes, road) {
     }
 }
 
-export default function (mode, bounds, nodeRoadMap, nodes, road) {
+export function calculateRoadArea (mode, bounds, nodeRoadMap, nodes, road) {
 
     let width = getWidthFromRoad(road);
     // calculate total distance between nodes
     const orderedCoordinatePairs = getReducedOrderedNodeSet(mode, bounds, nodeRoadMap, nodes, road);
-    console.log(orderedCoordinatePairs.length);
     let distance = distanceBetweenAllPoints(orderedCoordinatePairs);
-
     const area = width * distance;
-
     return {
         area, unit: "m^2"
     };

@@ -5,7 +5,7 @@ import webpack from 'webpack';
 import path from 'path';
 import config from '../webpack.config.dev';
 import open from 'open';
-import calculate from '../src/processing/processing';
+import { calculate, getNodes } from '../src/processing/processing';
 
 const port = 3000;
 const app = express();
@@ -27,7 +27,22 @@ app.post("/api/calculate", function(req, res) {
 
   calculate(left, top, right, bottom, roadOption)
     .then(result => {
-      res.send(Object.assign({success: true}, result ));
+      res.send({success: true, result });
+    }).catch(er => {
+      console.log(er);
+      res.send({success: false, message: er.message });
+    });
+});
+
+app.post("/api/coordinates", function(req, res) {
+  // const { left, top, right, bottom } = req.params;
+  const bbox = req.query.bbox.split(",");
+  const [left, bottom, right, top] = bbox;
+  const roadOption = req.query.roadOption;
+
+  getNodes(left, top, right, bottom, roadOption)
+    .then(result => {
+      res.send({success: true, result });
     }).catch(er => {
       console.log(er);
       res.send({success: false, message: er.message });

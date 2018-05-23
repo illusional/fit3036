@@ -2,8 +2,8 @@
 export default class ReducedNode {
     constructor(id, lat, lon) {
         this.id = id;
-        this.lat = lat;
-        this.lon = lon;
+        this.lat = Number(lat);
+        this.lon = Number(lon);
     }
 
     inBounds(bounds) {

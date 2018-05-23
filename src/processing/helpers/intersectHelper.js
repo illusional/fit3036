@@ -53,7 +53,9 @@ function getIntersectedPoint(bounds, n1, n2) {
             return new ReducedNode(newId, bounds.top, inside.lon + (bounds.top - inside.lat)/gradient);
         } else if (gradient > (bounds.bottom - inside.lat)/(bounds.left - inside.lon)) {
             // Bottom intersection
-            return new ReducedNode(newId, bounds.bottom, inside.lat + (bounds.bottom - inside.lat)/gradient);
+            const p = new ReducedNode(newId, bounds.bottom, inside.lon + (bounds.bottom - inside.lat)/gradient);
+            if (p.lon < 0) { console.log('left-bottom', p); }
+            return p;
         } else {
             // left intersection
             return new ReducedNode(newId, inside.lat + (bounds.left - inside.lon)*gradient, bounds.left);
@@ -62,10 +64,14 @@ function getIntersectedPoint(bounds, n1, n2) {
         // right of point
         if (gradient > (bounds.top - inside.lat)/(bounds.right - inside.lon)) {
             // Top intersection
-            return new ReducedNode(newId, bounds.top, inside.lon + (bounds.top - inside.lat)/gradient);
+            const p = new ReducedNode(newId, bounds.top, inside.lon + (bounds.top - inside.lat)/gradient);
+            if (p.lon < 0) { console.log('right-top', p); }
+            return p;
         } else if (gradient < (bounds.bottom - inside.lat)/(bounds.right - inside.lon)) {
             // Bottom intersection
-            return new ReducedNode(newId, bounds.bottom, inside.lon + (bounds.bottom - inside.lat)/gradient);
+            const p = new ReducedNode(newId, bounds.bottom, inside.lon + (bounds.bottom - inside.lat)/gradient);
+            if (p.lon < 0) { console.log('right-bottom', p); }
+            return p;
         } else {
             return new ReducedNode(newId, inside.lat + (bounds.right - inside.lon)*gradient, bounds.right);
         }
