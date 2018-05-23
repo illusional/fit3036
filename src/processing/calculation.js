@@ -3,6 +3,7 @@
 import Mode from './mode';
 import intersectHelper from './helpers/intersectHelper';
 import truncatedHelper from './helpers/truncatedHelper';
+import ReducedNode from './models/ReducedNode';
 
 
 // AUSTROADS (2016) Guide to Road Design Part 3: Geometric Design (4.2.4 Traffic Lane Widths - p. 44)
@@ -35,8 +36,8 @@ function toRadians (angle) {
 
 /**
  * Javascript implementation of the Haversine (great circle) distance
- * @param {Node} p1 - Start point
- * @param {Node} p2 - Finish Point
+ * @param {ReducedNode} p1 - Start point
+ * @param {ReducedNode} p2 - Finish Point
  * @returns {Number} distance in metres
  */
 function distanceBetweenCoordinates(p1, p2) {
@@ -94,7 +95,8 @@ function getWidthFromRoad(road) {
 }
 
 function getReducedOrderedNodeSet(mode, bounds, nodeRoadMap, nodes, road) {
-    const allPairs = road.nds.map((nd, idx) => nodes[nd]);
+    let allPairs = road.nds.map((nd, idx) => nodes[nd]);
+
     if (mode == Mode.include) return allPairs;
 
     if (mode == Mode.intersection) {
@@ -111,6 +113,7 @@ export default function (mode, bounds, nodeRoadMap, nodes, road) {
     let width = getWidthFromRoad(road);
     // calculate total distance between nodes
     const orderedCoordinatePairs = getReducedOrderedNodeSet(mode, bounds, nodeRoadMap, nodes, road);
+    console.log(orderedCoordinatePairs.length);
     let distance = distanceBetweenAllPoints(orderedCoordinatePairs);
 
     const area = width * distance;

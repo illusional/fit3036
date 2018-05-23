@@ -5,7 +5,7 @@
     "plugin:import/warnings"
   ],
   "plugins": [
-    "react",
+    "react"
   ],
   "parserOptions": {
     "ecmaVersion": 8,

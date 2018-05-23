@@ -117,6 +117,11 @@ async function getVicroadsOpenData(left, top, right, bottom) {
     }
 }
 
+
+function round2Decimal(n) {
+    return Math.round(n * 100) / 100;
+}
+
 /**
  * The manager for the calculations, it handles getting the information
  * @param {Number} left 
@@ -162,7 +167,7 @@ export default async function (left, top, right, bottom, mode) {
         types: (prev && prev.types) ? 
             (prev.types.indexOf(roadType) >= 0 ? prev.types : prev.types.concat(roadType))
             : [roadType],
-        area: area + (prev ? prev.area : 0),
+        area: round2Decimal(area + (prev ? prev.area : 0)),
         unit
       };
     }

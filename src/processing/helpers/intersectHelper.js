@@ -6,27 +6,29 @@ import ReducedNode from '../models/ReducedNode';
  * @param {Object} bounds 
  */
 function getIntersectedPoints(orderedNodes, bounds) {
-    if (orderedNodes.length == 0) return orderedNodes;
+    if (orderedNodes.length < 2) return orderedNodes;
 
     const firstIsInBounds = orderedNodes[0].inBounds(bounds);
     const lastIsInBounds = orderedNodes[orderedNodes.length-1].inBounds(bounds);
     if (firstIsInBounds && lastIsInBounds) { return orderedNodes; }
-    if (!firstIsInBounds && !lastIsInBounds) { return []; }
 
-    let i = 0;
 
     if (firstIsInBounds) {
         // keep the start
-        while (i < orderedNodes.length && orderedNodes[i].inBounds(bounds)) { i++; }
+        let i = 0;
+        while (i < orderedNodes.length-1 && orderedNodes[i].inBounds(bounds)) { i++; }
+        // console.log("From Finish", i, orderedNodes.length);
         const newPoint = getIntersectedPoint(bounds, orderedNodes[i-1], orderedNodes[i]);
-        return orderedNodes.slice(0, i).concat(newPoint);
-
-    } else {
+        orderedNodes = newPoint ? orderedNodes.slice(0, i).concat(newPoint) : orderedNodes;
+    } else { //i f (!firstIsInBounds) {
         // remove from the start
-        while (i < orderedNodes.length && !orderedNodes[i].inBounds(bounds)) { i++; }
+        let i = orderedNodes.length-1;
+        while (i > 1 && !orderedNodes[i].inBounds(bounds)) { i--; }
+        // console.log("From Start", i, orderedNodes);
         const newPoint = getIntersectedPoint(bounds, orderedNodes[i-1], orderedNodes[i]);
-        return [newPoint].concat(orderedNodes.slice(i));
+        orderedNodes = newPoint ? orderedNodes.slice(0, i).concat(newPoint) : orderedNodes;
     }
+    return orderedNodes;
 }
 
 /**
@@ -36,6 +38,7 @@ function getIntersectedPoints(orderedNodes, bounds) {
  * @param {ReducedNode} n2 
  */
 function getIntersectedPoint(bounds, n1, n2) {
+    // console.log(n1, n2);
     const [inside, outside] = n1.inBounds(bounds) ? [n1, n2] : [n2, n1];
 
     const newId = `${inside.id}_${outside.id}_new`;
@@ -44,25 +47,27 @@ function getIntersectedPoint(bounds, n1, n2) {
     const gradient = (outside.lat - inside.lat)/(outside.lon - inside.lon);
 
     if (isLeft) {
-        if (gradient < (bounds.top - inside.lat)/(bounds.left - inside.lat)){
+        // left of point
+        if (gradient < (bounds.top - inside.lat)/(bounds.left - inside.lon)){
             // Top intersection
-            return new ReducedNode(newId, inside.lon + (bounds.top - inside.lat)/gradient, bounds.top);
-        } else if (gradient > (bounds.bottom - inside.lon)/(bounds.left - inside.lat)) {
+            return new ReducedNode(newId, bounds.top, inside.lon + (bounds.top - inside.lat)/gradient);
+        } else if (gradient > (bounds.bottom - inside.lat)/(bounds.left - inside.lon)) {
             // Bottom intersection
-            return new ReducedNode(newId, inside.lat + (bounds.bottom - inside.lon)/gradient, bounds.bottom);
+            return new ReducedNode(newId, bounds.bottom, inside.lat + (bounds.bottom - inside.lat)/gradient);
         } else {
             // left intersection
-            return new ReducedNode(newId, bounds.left, inside.lat + (bounds.left - inside.lat)*gradient);
+            return new ReducedNode(newId, inside.lat + (bounds.left - inside.lon)*gradient, bounds.left);
         }
     } else {
-        if (gradient > (bounds.top - inside.lon)/(bounds.right - inside.lat)) {
+        // right of point
+        if (gradient > (bounds.top - inside.lat)/(bounds.right - inside.lon)) {
             // Top intersection
-            return new ReducedNode(newId, inside.lon + (bounds.top - inside.lat)/gradient, bounds.top);
-        } else if (gradient < (bounds.bottom - inside.lon)/(bounds.right - inside.lat)) {
+            return new ReducedNode(newId, bounds.top, inside.lon + (bounds.top - inside.lat)/gradient);
+        } else if (gradient < (bounds.bottom - inside.lat)/(bounds.right - inside.lon)) {
             // Bottom intersection
-            return new ReducedNode(newId, inside.lon + (bounds.bottom - inside.lat)/gradient, bounds.bottom);
+            return new ReducedNode(newId, bounds.bottom, inside.lon + (bounds.bottom - inside.lat)/gradient);
         } else {
-            return new ReducedNode(newId, bounds.right, inside.lat + (bounds.right - inside.lon)*gradient);
+            return new ReducedNode(newId, inside.lat + (bounds.right - inside.lon)*gradient, bounds.right);
         }
     }
 }

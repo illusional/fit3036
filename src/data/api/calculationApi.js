@@ -1,9 +1,10 @@
 import axios from 'axios';
+import Mode from '../../processing/mode';
 
 export default class CalculationApi {
 
     static loadData(left, bottom, right, top, roadOption) {
-        const url = `/api/calculate?bbox=${left},${bottom},${right},${top}&roadOption=${roadOption || "truncate"}`;
+        const url = `/api/calculate?bbox=${left},${bottom},${right},${top}&roadOption=${roadOption || Mode.intersection}`;
         return axios.post(url, res => {
             const { data } = res;
             if (data.success) {

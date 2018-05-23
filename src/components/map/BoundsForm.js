@@ -47,8 +47,7 @@ class BoundsForm extends React.Component {
   onFormSubmit(e) {
     e.preventDefault();
     const { left, right, top, bottom } = this.state.textBounds;
-    const option = this.state.roadOption;
-    this.props.actions.loadData(left, bottom, right, top, option);
+    this.props.actions.loadData(left, bottom, right, top, this.props.mode);
   }
 
   onRoadOptionChanged(e) {
@@ -99,7 +98,7 @@ class BoundsForm extends React.Component {
           />);
         })}
         <br />
-        <CalculationOptions roadOption={this.props.mode} onRoadOptionChanged={this.onRoadOptionChanged} />
+        <CalculationOptions mode={this.props.mode} onRoadOptionChanged={this.onRoadOptionChanged} />
         <Button type="submit" variant="raised" size="medium" color="secondary" className={this.props.classes.button}>
           Reload Map and Data
         </Button>

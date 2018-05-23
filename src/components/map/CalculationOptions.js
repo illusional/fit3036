@@ -18,7 +18,7 @@ const styles = theme => ({
   }
 });
 
-const CalculationOptions = ({classes, roadOption, onRoadOptionChanged}) => {
+const CalculationOptions = ({classes, mode, onRoadOptionChanged}) => {
       // Give the user options whether to
       //    - include road that extends outside the bounding box (up to the next node), 
       //    - determine the surface area of the road up to the bounding box, 
@@ -29,7 +29,7 @@ const CalculationOptions = ({classes, roadOption, onRoadOptionChanged}) => {
         <FormControl className={classes.formControl}>
           <InputLabel htmlFor="road-simple">Road inclusion:</InputLabel>
           <Select
-            value={roadOption}
+            value={mode}
             onChange={onRoadOptionChanged}
             inputProps={{
               name: 'road',
@@ -47,7 +47,7 @@ const CalculationOptions = ({classes, roadOption, onRoadOptionChanged}) => {
 
 CalculationOptions.propTypes = {
     classes: PropTypes.object,
-    roadOption: PropTypes.string,
+    mode: PropTypes.string,
     onRoadOptionChanged: PropTypes.func
 };
 

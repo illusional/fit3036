@@ -10,7 +10,6 @@ function getTruncated(orderedNodes, bounds, nodeIdToRoad) {
     const lastIsInBounds = orderedNodes[orderedNodes.length-1].inBounds(bounds);
 
     if (firstIsInBounds && lastIsInBounds) { return orderedNodes; }
-    if (!firstIsInBounds && !lastIsInBounds) { return []; }
 
     if (firstIsInBounds) {
         // keep the start

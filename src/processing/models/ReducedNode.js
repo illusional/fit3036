@@ -7,7 +7,7 @@ export default class ReducedNode {
     }
 
     inBounds(bounds) {
-        return (bounds.left <= this.lat && this.lat <= bounds.right)
-            && (bounds.bottom <= this.lon && this.lon <= bounds.top);
+        return (bounds.left < this.lon && this.lon < bounds.right)
+            && (bounds.bottom < this.lat && this.lat < bounds.top);
     }
 }
