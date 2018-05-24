@@ -12,21 +12,23 @@ function getIntersectedPoints(orderedNodes, bounds) {
     const lastIsInBounds = orderedNodes[orderedNodes.length-1].inBounds(bounds);
     if (firstIsInBounds && lastIsInBounds) { return orderedNodes; }
 
-
-    if (firstIsInBounds) {
-        // keep the start
-        let i = 0;
-        while (i < orderedNodes.length-1 && orderedNodes[i].inBounds(bounds)) { i++; }
-        // console.log("From Finish", i, orderedNodes.length);
-        const newPoint = getIntersectedPoint(bounds, orderedNodes[i-1], orderedNodes[i]);
-        orderedNodes = newPoint ? orderedNodes.slice(0, i).concat(newPoint) : orderedNodes;
-    } else { //i f (!firstIsInBounds) {
-        // remove from the start
-        let i = orderedNodes.length-1;
-        while (i > 1 && !orderedNodes[i].inBounds(bounds)) { i--; }
-        // console.log("From Start", i, orderedNodes);
-        const newPoint = getIntersectedPoint(bounds, orderedNodes[i-1], orderedNodes[i]);
-        orderedNodes = newPoint ? orderedNodes.slice(0, i).concat(newPoint) : orderedNodes;
+    // either the first, or last nodes are out of the bounds
+    // so we'll trim both sides
+    // trim the start
+    let i = 0;
+    while (i < orderedNodes.length-1 && !orderedNodes[i].inBounds(bounds)) { i++; }
+    if (i > 0) {
+        // i is inside, i-1 is outside
+        const newFirstPoint = getIntersectedPoint(bounds, orderedNodes[i-1], orderedNodes[i]);
+        orderedNodes = [newFirstPoint].concat(orderedNodes.slice(i));
+    }
+    // trim the end
+    let j = orderedNodes.length-1;
+    while (j > 0 && !orderedNodes[j].inBounds(bounds)) { j--; }
+    if (j < orderedNodes.length-1) {
+        // j is inside, j+1 is outside
+        const newLastNode = getIntersectedPoint(bounds, orderedNodes[j], orderedNodes[j+1]);
+        orderedNodes = orderedNodes.slice(0, j+1).concat(newLastNode);
     }
     return orderedNodes;
 }

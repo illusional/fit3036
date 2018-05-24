@@ -37,7 +37,7 @@ const CalculationOptions = ({classes, mode, onRoadOptionChanged}) => {
             }}
           >
             <MenuItem value={Mode.include}>Include the whole road </MenuItem>
-            <MenuItem value={Mode.intersection}>Intersect the road at the border</MenuItem>
+            <MenuItem value={Mode.intersect}>Intersect the road at the border</MenuItem>
             <MenuItem value={Mode.truncate}>Truncate the road to the nearest intersection</MenuItem>
           </Select>
         </FormControl>

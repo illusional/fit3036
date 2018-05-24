@@ -16,6 +16,6 @@ export default {
     config: {
         roads: undefined,
         types: undefined,
-        mode: Mode.intersection
+        mode: Mode.intersect
     }
 };

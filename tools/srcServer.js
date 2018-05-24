@@ -23,11 +23,11 @@ app.post("/api/calculate", function(req, res) {
   // const { left, top, right, bottom } = req.params;
   const bbox = req.query.bbox.split(",");
   const [left, bottom, right, top] = bbox;
-  const roadOption = req.query.roadOption;
+  const mode = req.query.mode;
 
-  calculate(left, top, right, bottom, roadOption)
+  calculate(left, top, right, bottom, mode)
     .then(result => {
-      res.send({success: true, result });
+      res.send(Object.assign({success: true}, result));
     }).catch(er => {
       console.log(er);
       res.send({success: false, message: er.message });
@@ -38,11 +38,11 @@ app.post("/api/coordinates", function(req, res) {
   // const { left, top, right, bottom } = req.params;
   const bbox = req.query.bbox.split(",");
   const [left, bottom, right, top] = bbox;
-  const roadOption = req.query.roadOption;
+  const mode = req.query.mode;
 
-  getNodes(left, top, right, bottom, roadOption)
+  getNodes(left, top, right, bottom, mode)
     .then(result => {
-      res.send({success: true, result });
+      res.send({success: true, result});
     }).catch(er => {
       console.log(er);
       res.send({success: false, message: er.message });

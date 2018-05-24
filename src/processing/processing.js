@@ -133,10 +133,9 @@ function round2Decimal(n) {
 export async function calculate(left, top, right, bottom, mode) {
   const bounds = { left, top, right, bottom };
 
-  const [osm, vicroads] = await Promise.all([getOSMData(left, top, right, bottom), getVicroadsOpenData(left, top, right, bottom)]);
+  const osm = await getOSMData(left, top, right, bottom);
   
   const { nodes, roads } = osm;
-
 
   let roadTypes = {};
   let roadNames = {};

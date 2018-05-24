@@ -96,10 +96,10 @@ function getWidthFromRoad(road) {
 
 export function getReducedOrderedNodeSet(mode, bounds, nodeRoadMap, nodes, road) {
     let allPairs = road.nds.map((nd, idx) => nodes[nd]);
-
-    if (mode == Mode.include) return allPairs;
-
-    if (mode == Mode.intersection) {
+    
+    if (mode == Mode.include) { 
+        return allPairs;
+    } else if (mode == Mode.intersect) {
         return intersectHelper.getIntersectedPoints(allPairs, bounds);
     } else if (mode == Mode.truncate) {
         return truncatedHelper.getTruncated(allPairs, bounds, nodeRoadMap);

@@ -37,7 +37,7 @@ class AddressLookup extends React.Component {
             <Input
               fullWidth
               {...getInputProps({
-                placeholder: 'Search for a places ...',
+                placeholder: 'Search for a place ...',
                 className: 'location-search-input'
               })}
             />
