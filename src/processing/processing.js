@@ -196,7 +196,7 @@ export async function getNodes(left, top, right, bottom, mode) {
 
   for (let i=0; i<roads.length; i++) {
     let road = roads[i];
-    const reduced = getReducedOrderedNodeSet(mode, bounds, nodeIdToRoad, nodes, road)
+    const reduced = getReducedOrderedNodeSet(mode, bounds, nodeIdToRoad, nodes, road);
     processedRoads.push(reduced.map(val => [val.lon, val.lat]));
   }
   return processedRoads;

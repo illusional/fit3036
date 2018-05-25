@@ -4,7 +4,7 @@
   "description": "FIT3036 Computer Science Project for estimating road surface area",
   "scripts": {
     "start": "cross-env npm-run-all --parallel test:watch open:src lint:watch",
-    "open:src": "nodemon tools/srcServer.js --exec babel-node",
+    "open:src": "babel-node tools/srcServer.js --exec",
     "lint": "node_modules/.bin/esw webpack.config.* src tools",
     "lint:watch": "npm run lint -- --watch",
     "test": "mocha --reporter progress tools/testSetup.js \"src/**/*.test.js\"",
