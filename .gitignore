@@ -28,6 +28,7 @@ node_modules
 
 .vs
 .vscode
+.github
 
 #dist folder
 dist
