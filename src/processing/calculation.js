@@ -55,7 +55,7 @@ export function distanceBetweenCoordinates(p1, p2) {
     const lat2 = p2.lat;
     const lon2 = p2.lon;
 
-    const R = 6378137;  //  radius of Earth in meters
+    const R = 6371500;  //  radius of Earth in meters
     const phi_1 = toRadians(lat1);
     const phi_2 = toRadians(lat2);
 
