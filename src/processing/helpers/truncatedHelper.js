@@ -22,7 +22,7 @@ function getTruncated(orderedNodes, bounds, nodeIdToRoad) {
     }
     // trim the end
     let j = orderedNodes.length-1;
-    while (j > 0 && !orderedNodes[j].inBounds(bounds) && nodeIdToRoad[orderedNodes[i].id].length == 1) { j--; }
+    while (j > 0 && !orderedNodes[j].inBounds(bounds) && nodeIdToRoad[orderedNodes[j].id].length == 1) { j--; }
     if (j < orderedNodes.length-1) {
         // j is inside, j+1 is outside
         orderedNodes = orderedNodes.slice(0, j);

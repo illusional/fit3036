@@ -51,11 +51,11 @@ export function distanceBetweenCoordinates(p1, p2) {
 
     // Coordinates in decimal degrees (e.g. 2.89078, 12.79797)
     const lat1 = p1.lat;
-    const lon1 = p2.lon;
+    const lon1 = p1.lon;
     const lat2 = p2.lat;
     const lon2 = p2.lon;
 
-    const R = 6371500;  //  radius of Earth in meters
+    const R = 6378137;  //  radius of Earth in meters
     const phi_1 = toRadians(lat1);
     const phi_2 = toRadians(lat2);
 
@@ -63,7 +63,7 @@ export function distanceBetweenCoordinates(p1, p2) {
     const delta_lambda = toRadians(lon2 - lon1);
 
     const a = Math.pow(Math.sin(delta_phi / 2.0), 2) + Math.cos(phi_1) * Math.cos(phi_2) * Math.pow(Math.sin(delta_lambda / 2.0), 2);
-    const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
+    const c = 2 * Math.asin(Math.sqrt(a));
     const meters = R * c;  // output distance in meters
 
     return meters;
