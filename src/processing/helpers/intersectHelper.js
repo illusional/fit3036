@@ -40,7 +40,6 @@ function getIntersectedPoints(orderedNodes, bounds) {
  * @param {ReducedNode} n2 
  */
 function getIntersectedPoint(bounds, n1, n2) {
-    // console.log(n1, n2);
     const [inside, outside] = n1.inBounds(bounds) ? [n1, n2] : [n2, n1];
 
     const newId = `${inside.id}_${outside.id}_new`;
@@ -56,7 +55,6 @@ function getIntersectedPoint(bounds, n1, n2) {
         } else if (gradient > (bounds.bottom - inside.lat)/(bounds.left - inside.lon)) {
             // Bottom intersection
             const p = new ReducedNode(newId, bounds.bottom, inside.lon + (bounds.bottom - inside.lat)/gradient);
-            if (p.lon < 0) { console.log('left-bottom', p); }
             return p;
         } else {
             // left intersection
@@ -67,12 +65,10 @@ function getIntersectedPoint(bounds, n1, n2) {
         if (gradient > (bounds.top - inside.lat)/(bounds.right - inside.lon)) {
             // Top intersection
             const p = new ReducedNode(newId, bounds.top, inside.lon + (bounds.top - inside.lat)/gradient);
-            if (p.lon < 0) { console.log('right-top', p); }
             return p;
         } else if (gradient < (bounds.bottom - inside.lat)/(bounds.right - inside.lon)) {
             // Bottom intersection
             const p = new ReducedNode(newId, bounds.bottom, inside.lon + (bounds.bottom - inside.lat)/gradient);
-            if (p.lon < 0) { console.log('right-bottom', p); }
             return p;
         } else {
             return new ReducedNode(newId, inside.lat + (bounds.right - inside.lon)*gradient, bounds.right);

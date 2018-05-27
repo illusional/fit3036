@@ -62,7 +62,6 @@ export async function calculate(left, top, right, bottom, mode) {
     unit
     };
   }
-  console.log(`processing time for ${roads.length} roads was: ${new Date().getTime() - start.getTime()} ms`);
   return {
     roadNames,
     roads: processedRoads,

@@ -14,7 +14,6 @@ const p5 = new ReducedNode('out3', -37.91, 145.143);
 // distanceBetweenCoordinates
 describe('Haversine formula', () => {
 
-    const expected = (333.61095987)
     it('haversine-1', () => {
         const distance = distanceBetweenCoordinates(p1_1, p1_2);
         expect(distance).toBeApproximately(p1_expected, -2);
