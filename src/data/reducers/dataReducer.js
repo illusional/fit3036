@@ -14,10 +14,22 @@ import intialState from './initialState';
 //     unit: null
 // }
 
+function to5DP(n) {
+    const p = Math.pow(10, 5);
+    return Math.round(n*p)/p;
+}
+
 export default function dataReducer(state=intialState.data, action) {
 
     if (action.type == types.DATA_BOUNDS_CHANGED) {
-        return Object.assign({}, state, { bounds: action.payload });
+        const {left, right, top, bottom} = action.payload;
+        const bounds = {
+            left: to5DP(left),
+            right: to5DP(right),
+            top: to5DP(top),
+            bottom: to5DP(bottom)
+        };
+        return Object.assign({}, state, { bounds });
     }
 
     if (action.type === types.DATA_LOAD_START) {

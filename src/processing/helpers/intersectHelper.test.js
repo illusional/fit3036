@@ -9,10 +9,12 @@ expect.extend({
         pass: arg1 <= received && received <= arg2
       };
     },
-    toBeApproximately (received, arg1) {
+    toBeApproximately (received, arg1, accuracy) {
+        const ac = Math.pow(10, accuracy == undefined ? -4 : accuracy);
+        
         return {
-          message: () => `expected ${received} to be approximately ${arg1} +- 0.0001`,
-          pass: (arg1 - 0.0001) <= received && received <= (arg1 + 0.0001)
+          message: () => `expected ${received} to be approximately ${arg1} +- ${ac}`,
+          pass: (arg1 - ac) <= received && received <= (arg1 + ac)
         };
       }
   });
@@ -37,24 +39,20 @@ describe('Intersection test', () => {
     // const expected = (145.13235999999998, -37.90716)
     const point1 = intersectHelper.getIntersectedPoint(bounds, in1, out1);
     it('intersection-test1-lat', () => {
-        const [lt1, lt2] = [-37.9072, -37.9071];
-        expect(point1.lat).toBeWithin([lt1, lt2]);
+        expect(point1.lat).toBeApproximately(-37.90716);
     });
     it('intersection-test1-lon', () => {
-        const [ln1, ln2] = [145.13235, 145.132565];
-        expect(point1.lon).toBeWithin([ln1, ln2]);
+        expect(point1.lon).toBeApproximately(145.13235999999998);
     });
 
     // left
     // expected (145.12796, -37.908526870389885)
     const point2 = intersectHelper.getIntersectedPoint(bounds, in1, out3);
     it('intersection-test2-lat', () => {
-        const [lt1, lt2] = [-37.9086, -37.9085];
-        expect(point2.lat).toBeWithin([lt1, lt2]);
+        expect(point2.lat).toBeApproximately(-37.908526870389885);
     });
     it('intersection-test2-lon', () => {
-        const [ln1, ln2] = [145.1279, 145.128];
-        expect(point2.lon).toBeWithin([ln1, ln2]);
+        expect(point2.lon).toBeApproximately(145.12796);
     });
 
     // right
@@ -69,17 +67,17 @@ describe('Intersection test', () => {
 });
 
 describe('Reduction and intersection test', () => {
-    const reduced = intersectHelper.getIntersectedPoints([in1, out2, out1], bounds);
-    // expected last point: (-37.90716, 145.13578019999997)
+    const reduced = intersectHelper.getIntersectedPoints([out1, out2, in1], bounds);
+    // expected first point: (-37.90716, 145.13578019999997)
 
     it ('reduction-test1-length', () => {
         expect(reduced.length).toBe(2);
     });
     it ('reduction-test1-lat', () => {
-        expect(reduced[1].lat).toBeApproximately(-37.90716);
+        expect(reduced[0].lat).toBeApproximately(-37.90716);
     });
     it ('reduction-test1-lon', () => {
-        expect(reduced[1].lon).toBeApproximately(145.13578019999997);
+        expect(reduced[0].lon).toBeApproximately(145.13578019999997);
     });
 });
 

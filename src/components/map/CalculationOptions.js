@@ -27,7 +27,7 @@ const CalculationOptions = ({classes, mode, onRoadOptionChanged}) => {
         <div>
           
         <FormControl className={classes.formControl}>
-          <InputLabel htmlFor="road-simple">Road inclusion:</InputLabel>
+          <InputLabel htmlFor="road-simple">Calculation Mode:</InputLabel>
           <Select
             value={mode}
             onChange={onRoadOptionChanged}

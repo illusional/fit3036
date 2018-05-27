@@ -1,6 +1,8 @@
+import ReducedNode from '../models/ReducedNode';
+
 /**
  * 
- * @param {Array<Node>} orderedNodes 
+ * @param {Array<ReducedNode>} orderedNodes 
  * @param {Object} bounds 
  */
 function getTruncated(orderedNodes, bounds, nodeIdToRoad) {
@@ -11,18 +13,21 @@ function getTruncated(orderedNodes, bounds, nodeIdToRoad) {
 
     if (firstIsInBounds && lastIsInBounds) { return orderedNodes; }
 
-    if (firstIsInBounds) {
-        // keep the start
-        let i = orderedNodes.length-1;
-        while (i > 0 && !orderedNodes[i].inBounds(bounds) && nodeIdToRoad[orderedNodes[i].id].length == 1) { i--; }
-        return orderedNodes.slice(0, i);
 
-    } else {
-        // remove from the start
-        let i = 0;
-        while (i < orderedNodes.length && !orderedNodes[i].inBounds(bounds) && nodeIdToRoad[orderedNodes[i].id].length == 1) { i++; }
-        return orderedNodes.slice(i);
+    let i = 0;
+    while (i < orderedNodes.length-1 && !orderedNodes[i].inBounds(bounds) && nodeIdToRoad[orderedNodes[i].id].length == 1) { i++; }
+    if (i > 0) {
+        // i is inside, i-1 is outside
+        orderedNodes = orderedNodes.slice(i);
     }
+    // trim the end
+    let j = orderedNodes.length-1;
+    while (j > 0 && !orderedNodes[j].inBounds(bounds) && nodeIdToRoad[orderedNodes[i].id].length == 1) { j--; }
+    if (j < orderedNodes.length-1) {
+        // j is inside, j+1 is outside
+        orderedNodes = orderedNodes.slice(0, j);
+    }
+    return orderedNodes;
 }
 
 export default { getTruncated };

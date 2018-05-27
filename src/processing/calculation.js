@@ -17,10 +17,10 @@ const DEFAULT_ROAD_WIDTH = DEFAULT_LANES * DEFAULT_LANE_WIDTH + DEFAULT_ROAD_PAD
  * @returns {Number} the sum of the distance between successive points
  */
 
-function distanceBetweenAllPoints(pts) {
+export function distanceBetweenAllPoints(pts) {
     let distance = 0.0;
-    for (let i=0; i < pts.length-1; i++) {
-        distance += distanceBetweenCoordinates(pts[i], pts[i+1]);
+    for (let i=1; i < pts.length; i++) {
+        distance += distanceBetweenCoordinates(pts[i-1], pts[i]);
     }
     return distance;
 }
@@ -40,12 +40,14 @@ function toRadians (angle) {
  * @param {ReducedNode} p2 - Finish Point
  * @returns {Number} distance in metres
  */
-function distanceBetweenCoordinates(p1, p2) {
+export function distanceBetweenCoordinates(p1, p2) {
     // Based on: https://stackoverflow.com/a/27943
     // φ is latitude, λ is longitude, R is earth’s radius (mean radius = 6,371km) 
     // a = sin²(φB - φA/2) + cos φA * cos φB * sin²(λB - λA/2)
     // c = 2 * atan2( √a, √(1−a) )
     // d = R ⋅ c
+
+    if (!p1 || !p2) { return 0.0; }
 
     // Coordinates in decimal degrees (e.g. 2.89078, 12.79797)
     const lat1 = p1.lat;
@@ -53,7 +55,7 @@ function distanceBetweenCoordinates(p1, p2) {
     const lat2 = p2.lat;
     const lon2 = p2.lon;
 
-    const R = 6371000;  //  radius of Earth in meters
+    const R = 6371500;  //  radius of Earth in meters
     const phi_1 = toRadians(lat1);
     const phi_2 = toRadians(lat2);
 

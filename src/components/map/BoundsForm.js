@@ -89,13 +89,20 @@ class BoundsForm extends React.Component {
         <p>Bounds of the map are:</p>
         <form onSubmit={this.onFormSubmit} noValidate autoComplete="off">
         {["left", "bottom", "right", "top"].map((val, idx) => {
-          return (<NumberFormat fullWidth key={idx} decimalScale={5}
-            label={val.charAt(0).toUpperCase() + val.slice(1).toLowerCase()} 
+          return (<TextField 
+            key={idx} 
+            id={val} 
             value={this.state.textBounds[val]} 
-            id={val}    
-            customInput={TextField} 
-            onChange={this.tfBoundsChanged} 
+            onChange={this.tfBoundsChanged}
+            label={val.charAt(0).toUpperCase() + val.slice(1).toLowerCase()} 
           />);
+          // return (<NumberFormat fullWidth key={idx} decimalScale={5}
+          //   label={val.charAt(0).toUpperCase() + val.slice(1).toLowerCase()} 
+          //   value={this.state.textBounds[val]} 
+          //   id={val}    
+          //   customInput={TextField} 
+          //   onChange={this.tfBoundsChanged} 
+          // />);
         })}
         <br />
         <CalculationOptions mode={this.props.mode} onRoadOptionChanged={this.onRoadOptionChanged} />
