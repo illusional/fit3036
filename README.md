@@ -1,7 +1,10 @@
 # Road Surface Area Estimation
 Produced for Monash University during FIT3036 (Computer Science Project) Semester 1, 2018.
-Produced by Michael Franklin
-Supervised by: Dr. Rasika Amarasiri
+
+Produced by: _Michael Franklin_ <br />
+Supervised by: _Dr. Rasika Amarasiri_
+
+With the ever-increasing size of cities and their infrastructure, this project develops a tool that sources data from OpenStreetMaps in order to estimate the surface area of roads within a given bounding rectangle.
 
 ## Quick Start Guide
 Run the project by executing the following command in the project's directory:
@@ -14,6 +17,28 @@ Run the project by executing the following command in the project's directory:
 
 ### Potential Fixes:
 Ensure you have installed all NPM packages (by `npm install`)
+
+## Introduction
+
+This introduction and subsequent information is taken from the submitted report: [Final Report](resources/report.pdf)
+
+### Calculation
+
+The major component of this project is the ability to estimate the road surface area within some confined coordinate bounds, this first requires acquiring the data from a web-mapping provider and then processing the result. We query this data from a mirror of OpenStreetMap called Overpass. Overpass allows us to use a query to gain a narrow set of information, saving bandwidth and reducing the processing required by our server.
+
+Overpass returns additional information outside the bounding box to give us enough context to correctly draw the map, so we introduce 3 calculation modes to allow the user to decide how to handle this:
+- Include: Include all information returned by Overpass in the calculation, do not perform any filtering.
+- Intersect: Intersect the road at the bounds by calcluating an intemediary point at the border and disregarding all other points outside.
+- Truncate: Truncate the road to the nearest intersection.
+
+The results of these calcluations can be found in the images below (of Monash University):
+
+|Include|Intersect|Truncate|
+|-|-|-|
+|![Include visual representation](resources/monash_incl.png)|![Intersect visual representation](resources/monash_inter.png)|![Truncate visual representation](resources/monash_trunceps.png)|
+
+
+
 
 ## Notes:
 This project used [Cory House](https://www.pluralsight.com/authors/cory-house)'s [React template](https://github.com/coryhouse/pluralsight-redux-starter), offered by [PluralSight](https://www.pluralsight.com/courses/react-redux-react-router-es6) as as a base patterning for a React application. This template assists in the support for babel and babel-polyfill for writing ES5 / ES6 that is compiled into a single page application. 
