@@ -68,7 +68,7 @@
     "nock": "8.0.0",
     "nodemon": "^1.17.5",
     "npm-run-all": "1.8.0",
-    "open": "0.0.5",
+    "open": "6.0.0",
     "react-addons-test-utils": "15.0.2",
     "redux-devtools-extension": "^2.13.2",
     "redux-immutable-state-invariant": "1.2.3",
