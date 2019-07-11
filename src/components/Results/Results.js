@@ -1,10 +1,10 @@
 /* eslint  react/no-multi-comp: 0*/
 import React from 'react';
 import PropTypes from 'prop-types';
-import Typography from 'material-ui/Typography';
+import Typography from '@material-ui/core/Typography';
 import NumberFormat from 'react-number-format';
-import Paper from 'material-ui/Paper';
-import Button from 'material-ui/Button';
+import Paper from '@material-ui/core/Paper';
+import Button from '@material-ui/core/Button';
 
 const getResult = (roads, config) => {
     if (!roads || roads.length === 0) { return "loading ..."; }

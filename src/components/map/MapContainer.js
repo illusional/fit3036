@@ -3,17 +3,17 @@ import PropTypes from 'prop-types';
 
 import {connect} from 'react-redux';
 import {bindActionCreators} from 'redux';
-import { withStyles } from 'material-ui/styles';
+import { withStyles } from '@material-ui/core';
 import { loadData, updateBounds } from '../../data/actions/dataActions';
 
 import BoundsForm from './BoundsForm';
 import AddressLookup from './AddressLookup';
 
 import NumberFormat from 'react-number-format';
-import Typography from 'material-ui/Typography';
-import Paper from 'material-ui/Paper';
-import TextField from 'material-ui/TextField';
-import Button from 'material-ui/Button';
+import Typography from '@material-ui/core/Typography';
+import Paper from '@material-ui/core/Paper';
+import TextField from '@material-ui/core/TextField';
+import Button from '@material-ui/core/Button';
 
 import { LatLng, LatLngBounds } from "leaflet";
 import { Map, TileLayer, Rectangle } from 'react-leaflet';

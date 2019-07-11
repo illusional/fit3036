@@ -2,7 +2,7 @@ import React from 'react';
 import { render } from 'react-dom';
 import configureStore from './data/store/configureStore';
 import { Provider } from 'react-redux';
-import CssBaseline from 'material-ui/CssBaseline';
+import CssBaseline from '@material-ui/core/CssBaseline';
 
 import 'babel-polyfill';
 import './styles/styles.css';

@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import Configure from './Configure';
-import Paper from 'material-ui/Paper';
+import Paper from '@material-ui/core/Paper';
 
 const Configuration = ({ types, roads, updateType, updateRoad }) => {
 

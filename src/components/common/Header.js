@@ -1,9 +1,8 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { withStyles } from 'material-ui/styles';
 
-import { AppBar, Toolbar, Typography, IconButton, Icon, Popover } from 'material-ui';
-import HelpIcon from 'material-ui-icons/Help';
+import { withStyles, AppBar, Toolbar, Typography, Popover } from '@material-ui/core';
+// import HelpIcon from '@material-ui/icons/Help';
 import AboutPage from '../about/AboutPage';
 
 const styles = (theme) => ({
@@ -46,7 +45,8 @@ class Header extends React.Component {
         <Typography variant="title" color="inherit" className={classes.flex}>
           Road Surface Estimation
         </Typography>
-        <HelpIcon onClick={this.clickHelp}/>
+        {/* <HelpIcon onClick={this.clickHelp}/> */}
+        <a onClick={this.clickHelp}>Help</a>
         <Popover
           open={Boolean(this.state.helpAnchor)}
           anchorEl={this.state.helpAnchor}

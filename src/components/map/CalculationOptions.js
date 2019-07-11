@@ -1,7 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { withStyles } from 'material-ui/styles';
-import { FormControl, MenuItem, Select, InputLabel } from 'material-ui';
+import { FormControl, MenuItem, Select, InputLabel, withStyles } from '@material-ui/core';
 import Mode from '../../processing/mode';
 
 const styles = theme => ({

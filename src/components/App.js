@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import {connect} from 'react-redux';
 import {bindActionCreators} from 'redux';
 
-import { MuiThemeProvider, createMuiTheme } from 'material-ui/styles';
+import { MuiThemeProvider, createMuiTheme } from '@material-ui/core';
 import * as configActions from '../data/actions/configActions';
 import { loadData } from '../data/actions/dataActions';
 

@@ -1,8 +1,8 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { FormControl, FormLabel, FormGroup, FormControlLabel } from 'material-ui/Form';
-import Checkbox from 'material-ui/Checkbox';
-import Typography from 'material-ui/Typography';
+import { FormControl, FormLabel, FormGroup, FormControlLabel } from '@material-ui/core';
+import Checkbox from '@material-ui/core/Checkbox';
+import Typography from '@material-ui/core/Typography';
 import NumberFormat from 'react-number-format';
 
 const Configure = ({title, elements, onChange}) => {

@@ -8,10 +8,10 @@ import { updateMode } from '../../data/actions/configActions';
 import CalculationOptions from './CalculationOptions';
 import AddressLookup from './AddressLookup';
 
-import { withStyles } from 'material-ui/styles';
+import { withStyles } from '@material-ui/core';
 import NumberFormat from 'react-number-format';
-import TextField from 'material-ui/TextField';
-import Button from 'material-ui/Button';
+import TextField from '@material-ui/core/TextField';
+import Button from '@material-ui/core/Button';
 import PlacesAutocomplete, { geocodeByAddress } from 'react-places-autocomplete';
 
 const styles = {

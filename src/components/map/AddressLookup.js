@@ -1,11 +1,10 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { withStyles } from 'material-ui/styles';
 
 const styles = {};
 
 import PlacesAutocomplete, { geocodeByAddress, getLatLng } from 'react-places-autocomplete';
-import { Input, Paper, MenuItem } from 'material-ui';
+import { Input, Paper, MenuItem, withStyles } from '@material-ui/core';
 
 class AddressLookup extends React.Component {
   constructor(props) {
