@@ -6,7 +6,6 @@ import CssBaseline from 'material-ui/CssBaseline';
 
 import 'babel-polyfill';
 import './styles/styles.css';
-import 'typeface-roboto';
 
 import App from './components/App';
 const store = configureStore();
