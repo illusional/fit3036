@@ -61,14 +61,7 @@ Some of the dependencies are derived from the base template, and other (such as 
 ### Development Dependencies
 | **Dependency** | **Use** |
 |----------|-------|
-|babel-cli|Babel Command line interface |
-|babel-core|Babel Core for transpiling the new JavaScript to old |
-|babel-loader|Adds Babel support to Webpack |
-|babel-plugin-react-display-name| Add displayName to React.createClass calls |
-|babel-preset-es2015|Babel preset for ES2015|
-|babel-preset-react| Add JSX support to Babel |
-|babel-preset-react-hmre|Hot reloading preset for Babel|
-|babel-register|Register Babel to transpile our Mocha tests|
+|babel|Javascript compiler for ES5+|
 |cheerio|Supports querying DOM with jQuery like syntax - Useful in testing and build process for HTML manipulation|
 |compression|Add gzip support to Express|
 |cross-env|Cross platform support for environment variables|
@@ -86,7 +79,6 @@ Some of the dependencies are derived from the base template, and other (such as 
 |jsdom|In-memory DOM for testing|
 |mocha| JavaScript testing library |
 |npm-run-all| Display results of multiple commands on single command line |
-|open|Open app in default browser|
 |react-addons-test-utils| Adds React TestUtils |
 |redux-immutable-state-invariant|Warn when Redux state is mutated|
 |redux-mock-store|Mock Redux store for testing|
