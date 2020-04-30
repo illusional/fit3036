@@ -20,7 +20,7 @@
     "axios": "^0.19.2",
     "babel-polyfill": "^6.26.0",
     "bootstrap": "^4.4.1",
-    "jquery": "^3.4.1",
+    "jquery": "^3.5.0",
     "leaflet": "^1.6.0",
     "node-gyp": "^5.1.0",
     "prop-types": "^15.6.1",
