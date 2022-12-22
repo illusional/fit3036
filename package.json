@@ -70,7 +70,7 @@
     "redux-mock-store": "1.0.2",
     "remote-redux-devtools": "^0.5.16",
     "rimraf": "2.5.2",
-    "socketcluster": "^11.4.4",
+    "socketcluster": "^17.2.0",
     "style-loader": "^0.13.1",
     "url-loader": "^2.3.0",
     "webpack": "^4.44.1",
